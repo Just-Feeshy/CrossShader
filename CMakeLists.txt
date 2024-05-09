@@ -41,7 +41,9 @@ add_subdirectory(external/spirv-cross)
 set_property(TARGET spirv-cross spirv-cross-core spirv-cross-cpp spirv-cross-glsl spirv-cross-hlsl spirv-cross-msl spirv-cross-reflect spirv-cross-util PROPERTY FOLDER "spirv")
 
 # DirectX Compiler
+if(WIN32)
 add_subdirectory(external/directxshadercompiler)
+endif()
 
 
 # =============================================================
@@ -75,6 +77,8 @@ add_executable(
 # =============================================================
 
 # Finish Dependencies
+
+if(WIN32)
 
 target_link_libraries(
     ${PROJECT_NAME}
@@ -117,6 +121,50 @@ add_dependencies(
     spirv-cross-reflect
     spirv-cross-util
 )
+
+else()
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    glslang
+    #glslangValidator
+    #spirv-remap
+    glslang-default-resource-limits
+    OGLCompiler
+    OSDependent
+    SPIRV
+    SPVRemapper
+    #spirv-cross
+    spirv-cross-core
+    spirv-cross-cpp
+    spirv-cross-glsl
+    spirv-cross-hlsl
+    spirv-cross-msl
+    spirv-cross-reflect
+    spirv-cross-util
+)
+
+add_dependencies(
+    ${PROJECT_NAME}
+    glslang
+    #glslangValidator
+    #spirv-remap
+    glslang-default-resource-limits
+    OGLCompiler
+    OSDependent
+    SPIRV
+    SPVRemapper
+    #spirv-cross
+    spirv-cross-core
+    spirv-cross-cpp
+    spirv-cross-glsl
+    spirv-cross-hlsl
+    spirv-cross-msl
+    spirv-cross-reflect
+    spirv-cross-util
+)
+
+endif()
 
 # =============================================================
 
